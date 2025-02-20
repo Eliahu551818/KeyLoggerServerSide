@@ -20,8 +20,8 @@ class UserDB:
         return self.__users.find_one({'mac_address': mac_address })
 
     def get_all_users(self):
-        return self.__users.find(projection=['nickname', 'mac_address'])
-    
+        return list(self.__users.find(projection=['nickname', 'mac_address']))
+
     
 
         

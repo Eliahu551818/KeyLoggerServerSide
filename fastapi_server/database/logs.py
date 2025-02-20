@@ -10,5 +10,5 @@ class LogsDB:
         for window, logs in data.data.items():
             self.__logs.find_one_and_update({'_id': id }, {'$set':{ f'logs.{window}.{data.time}' : logs } })
 
-    def show_logs(self, id: ObjectId):
+    def get_logs_for_id(self, id: ObjectId):
         return self.__logs.find_one({'_id': id })['logs']
