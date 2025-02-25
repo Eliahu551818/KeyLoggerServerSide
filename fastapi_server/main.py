@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import data_router, users_router
+from routers import data_router, users_router, auth_router
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -16,6 +16,7 @@ app.add_middleware(
 
 app.include_router(data_router)
 app.include_router(users_router)
+app.include_router(auth_router)
 
 app.get('/')
 def is_runnig():
