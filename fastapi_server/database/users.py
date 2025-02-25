@@ -17,8 +17,16 @@ class UserDB:
             return (True, new_user.inserted_id)
         
     def get_user_by_mac_address(self, mac_address: str):
-        return self.__users.find_one({'mac_address': mac_address })
+        user = self.__users.find_one({'mac_address': mac_address })
 
+        if not user:
+            response = self.inser_new_user('User',mac_address=mac_address)
+            
+            if response[0]:
+                user = self.__users.find_one({'mac_address': mac_address })
+        return user
+
+    
     def get_all_users(self):
         return list(self.__users.find(projection=['nickname', 'mac_address']))
 
