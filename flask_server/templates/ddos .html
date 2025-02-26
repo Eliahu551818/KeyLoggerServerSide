@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paginated Data Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination button {
+            padding: 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            cursor: not-allowed;
+            background-color: #ccc;
+        }
+    </style>
+
+    <script src="../static/scripts.js"></script>
+
+</head>
+<body onload="receiveUserData()" id="body">
+
+<h1>Paginated Data Table</h1>
+
+<select name="selection_win" id="selection_win"> </select>
+
+<!-- Table to display data -->
+<table id="table-body">
+    <thead>
+    </thead>
+    <tbody>
+        <!-- Rows will be dynamically inserted here -->
+    </tbody>
+</table>
+
+<!-- Pagination controls -->
+<div class="pagination">
+    <button id="prevBtn" onclick="changePage(-1)" disabled>Previous</button>
+    <span id="pageNumber">Page 1</span>
+    <button id="nextBtn" onclick="changePage(1)">Next</button>
+</div>
+
+<script>
+    // Sample data for the table
+    const data = [
+        { item: "Item 1", value: "100" },
+        { item: "Item 2", value: "200" },
+        { item: "Item 3", value: "300" },
+        { item: "Item 4", value: "400" },
+        { item: "Item 5", value: "500" },
+        { item: "Item 6", value: "600" },
+        { item: "Item 7", value: "700" },
+        { item: "Item 8", value: "800" },
+        { item: "Item 9", value: "900" },
+        { item: "Item 10", value: "1000" },
+        { item: "Item 11", value: "1100" },
+        { item: "Item 12", value: "1200" },
+        { item: "Item 13", value: "1300" },
+        { item: "Item 14", value: "1400" },
+        { item: "Item 15", value: "1500" },
+        { item: "Item 16", value: "1600" },
+        { item: "Item 17", value: "1700" },
+        { item: "Item 18", value: "1800" },
+        { item: "Item 19", value: "1900" },
+        { item: "Item 20", value: "2000" }
+        // Add more data if necessary...
+    ];
+
+    const itemsPerPage = 5; // Number of items per page
+    let currentPage = 1; // Current page
+
+    // Function to render data for the current page
+    function renderTable() {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = currentPage * itemsPerPage;
+        const dataToDisplay = data.slice(startIndex, endIndex);
+
+        const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Clear existing table rows
+
+        // Insert rows into the table
+        dataToDisplay.forEach(row => {
+            const tr = document.createElement('tr');
+            const tdItem = document.createElement('td');
+            tdItem.textContent = row.item;
+            const tdValue = document.createElement('td');
+            tdValue.textContent = row.value;
+
+            tr.appendChild(tdItem);
+            tr.appendChild(tdValue);
+            tableBody.appendChild(tr);
+        });
+
+        // Update the page number
+        document.getElementById('pageNumber').textContent = `Page ${currentPage}`;
+        
+        // Disable/enable Previous and Next buttons based on the current page
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = currentPage * itemsPerPage >= data.length;
+    }
+
+    // Function to handle page changes
+    function changePage(direction) {
+        currentPage += direction;
+        renderTable();
+    }
+
+    // Initialize the table on page load
+    window.onload = renderTable;
+</script>
+
+</body>
+</html>

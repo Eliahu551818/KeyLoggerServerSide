@@ -72,29 +72,88 @@ function listenToChangeOfWindow(data){
 function receiveUserData() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    const lst = []
-    const container = document.getElementById('selection_win')
-    const output = document.createElement('p')
-    output.id = 'output'
-    fetch(`https://keyloggerserverside.onrender.com/data/get_logs_for_user?id=${id}`, {method: 'GET'})
+    const container = document.getElementById('selection_win');
+    const output = document.createElement('p');
+    output.id = 'output';
+    const body = document.getElementById('body');
+    body.appendChild(output);
+    
+    // Number of items per page
+    const itemsPerPage = 5;  // You can change this number based on your needs
+    let currentPage = 1;
+    let logsData = [];
+
+    fetch(`https://keyloggerserverside.onrender.com/data/get_logs_for_user?id=${id}`, { method: 'GET' })
         .then(response => response.json())
         .then(data => data.logs)
         .then(data => {
-            for(win in data) {
-                const option = document.createElement('option')
-                option.textContent = String(win)
-                option.value = win
-                container.appendChild(option)
+            logsData = data;
+            // Create the options for selection
+            for (const win in data) {
+                const option = document.createElement('option');
+                option.textContent = String(win);
+                option.value = win;
+                container.appendChild(option);
             }
-            const body = document.getElementById('body')
-            body.appendChild(output)
 
-            const selectOption = container.value
-            const selectedData = data[selectOption];
-            addDataToTable(selectedData)
-            listenToChangeOfWindow(data)
+            // Initially load the first page of data
+            loadPage(currentPage);
 
+            // Add pagination controls
+            const pagination = document.createElement('div');
+            pagination.id = 'pagination';
+            body.appendChild(pagination);
 
-    })
-        
+            // Create Previous and Next buttons
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Previous';
+            prevButton.disabled = currentPage === 1;
+            prevButton.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadPage(currentPage);
+                }
+            };
+            pagination.appendChild(prevButton);
+
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Next';
+            nextButton.disabled = currentPage * itemsPerPage >= Object.keys(logsData).length;
+            nextButton.onclick = () => {
+                if (currentPage * itemsPerPage < Object.keys(logsData).length) {
+                    currentPage++;
+                    loadPage(currentPage);
+                }
+            };
+            pagination.appendChild(nextButton);
+
+            // Function to load data for the current page
+            function loadPage(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const pageData = Object.entries(logsData).slice(start, end);
+
+                // Clear the existing data in the table or container
+                const table = document.getElementById('table'); // Assuming you have a table to show data
+                table.innerHTML = ''; // Clear current data
+
+                // Render the new data for the current page
+                pageData.forEach(([key, value]) => {
+                    const row = document.createElement('tr');
+                    const keyCell = document.createElement('td');
+                    keyCell.textContent = key;
+                    row.appendChild(keyCell);
+
+                    const valueCell = document.createElement('td');
+                    valueCell.textContent = value;
+                    row.appendChild(valueCell);
+
+                    table.appendChild(row);
+                });
+
+                // Update the enabled state of the buttons
+                prevButton.disabled = page === 1;
+                nextButton.disabled = page * itemsPerPage >= Object.keys(logsData).length;
+            }
+        });
 }
