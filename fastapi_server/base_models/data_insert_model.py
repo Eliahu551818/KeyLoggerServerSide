@@ -5,3 +5,4 @@ class DataInputRequest(BaseModel):
     mac_address: str
     time: str
     data: dict
+    nickname: str

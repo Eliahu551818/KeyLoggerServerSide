@@ -14,8 +14,7 @@ logs = LogsDB()
 
 @router.post("/data/insert_data", tags=["Data"])
 async def add_data(data: DataInputRequest):
-    print(data.mac_address)
-    user = users.get_user_by_mac_address(data.mac_address)
+    user = users.get_user_by_mac_address(data.mac_address, data.nickname)
     logs.insert_logs(user.get('_id'), data=data)
     return JSONResponse(content={"success": True})
 

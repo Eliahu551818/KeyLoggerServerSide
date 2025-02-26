@@ -16,11 +16,11 @@ class UserDB:
         if new_user.inserted_id:
             return (True, new_user.inserted_id)
         
-    def get_user_by_mac_address(self, mac_address: str):
+    def get_user_by_mac_address(self, mac_address: str, nickname: str):
         user = self.__users.find_one({'mac_address': mac_address })
 
         if not user:
-            response = self.inser_new_user('User',mac_address=mac_address)
+            response = self.inser_new_user(nickname, mac_address=mac_address)
             
             if response[0]:
                 user = self.__users.find_one({'mac_address': mac_address })
