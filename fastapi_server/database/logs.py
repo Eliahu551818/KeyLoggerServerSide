@@ -29,6 +29,9 @@ class LogsDB:
 
 
             safe_window = window.replace('.', '[dot]')
+
+            safe_window = 'Default' if safe_window == '' else safe_window
+            
             self.__logs.find_one_and_update(
             {'_id': id},
             {'$set': {f'logs.{safe_window}.{data.time}': decripted_logs}}
