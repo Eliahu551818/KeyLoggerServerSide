@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashbord</title>
 
     <link rel="stylesheet" href="../static/style.css">
     <script src="../static/scripts.js"></script>
 </head>
 <body onload="receiveUserData()" id="body">
+    <div id="main_div">
+        <select name="selection_win" id="selection_win"> </select>
 
-    <h1 class="h1_cot">User Dashboard</h1>
-
-    <select name="selection_win" id="selection_win"> </select>
-
-<section id="table">
-    <table id="table" >
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Key Logs</th>
-            </tr>
-        </thead>
-        <tbody id="table-body">
-            
-        </tbody>
-    </table>
+    <section id="table">
+        <table id="table" >
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Key Logs</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                
+            </tbody>
+        </table>
+    </div>
 </section>
 </body>
 </html>
