@@ -3,105 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>User Login</title>
-    <style>
+    <link rel="stylesheet" href="../static/login.css">
 
-        html {
-            margin: 0; /* ביטול שוליים */
-            padding: 0; /* ביטול ריווחים */
-        }
-
-        iframe {
-            border: none; /* ביטול גבול */
-        }
-
-
-        body {
-            margin: 0; /* ביטול שוליים */
-            padding: 0; /* ביטול ריווחים */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-image: url("1597055487406.png"); /* רקע תמונה */
-            background-size: cover;
-            background-position: center;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            background-color: rgba(0, 0, 0, 0.7); /* רקע כהה עם שקיפות */
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-            text-align: center;
-            color: white;
-        }
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%; /* גובה 100% */
-            overflow: hidden; /* ביטול גלילה */
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        label {
-            margin: 10px 0;
-            display: block;
-            font-size: 18px;
-        }
-
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            background-color: #239a46;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            margin: 10px;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #1e7c38; /* צבע מעט כהה יותר בעת ריחוף */
-        }
-    </style>
 </head>
 <body>
-
+    <h1>To continue, enter your details</h1>
     <div class="container">
-        <h1>To continue, enter your details</h1>
-        <label for="password">Enter password:</label>
-        <input type="password" id="password" name="password" placeholder="*********" minlength="6">
-        
-        <br><br><br><br><br>
 
-        <button type="button" onclick="nextPage()">Continue</button>
+        <form action="/login" method="post">
+            <label for="password">Enter password:</label>
+            <input type="password" id="password" name="password" placeholder="*********" minlength="6">
+            
+            <br><br><br><br><br>
+            <button type="submit">Log in</button>
+
+        </form>
     </div>
-
-    <script>
-        function nextPage() {
-            let password = document.getElementById("password").value;
-
-            if (password.length < 6 || password.length > 9) {
-                 alert("Password must be between 6 and 9 characters");
-                 return;
-            }
-            window.location.href = "/templates/HomePage.html";
-        }
-    </script>
 </body>
 </html>
