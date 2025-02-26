@@ -27,7 +27,7 @@ def dashboard():
     id = request.args.get('id', '')
 
     if id:
-        return render_template('dashboard.html', id=id)
+        return render_template('Dashboard.html', id=id)
     
     else:
         return 'Select a user to chekc their logs!'
