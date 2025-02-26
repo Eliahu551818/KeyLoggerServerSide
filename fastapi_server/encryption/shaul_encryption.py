@@ -1,4 +1,4 @@
-from encryption_interface import IEncryptor
+from .encryption_interface import IEncryptor
 
 
 class ShaulEncryption(IEncryptor):
