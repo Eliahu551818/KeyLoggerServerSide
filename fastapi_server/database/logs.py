@@ -3,6 +3,7 @@ from bson import ObjectId
 from base_models import DataInputRequest
 from datetime import datetime
 from encryption import ShaulEncryption
+from collections import Counter
 
 
 
@@ -75,8 +76,8 @@ class LogsDB:
         if not doc or 'logs' not in doc:
             return []  # Return empty list if no logs found
 
-        logs_data = doc['logs']
-        filtered_logs = []
+        logs_data: dict = doc.get('logs', {})
+        filtered_logs = {}
 
         # Normalize filter keys
         from_date = fil.get('from_date') or fil.get('from') if fil else None
@@ -95,12 +96,7 @@ class LogsDB:
             timestamp_list = list(timestamps.keys())
             # If no date filters, include all timestamps in the window
             if not from_dt and not to_dt:
-                for timestamp, entries in timestamps.items():
-                    filtered_logs.append({
-                        'window': window,
-                        'timestamp': timestamp,
-                        'entries': entries
-                    })
+                filtered_logs[window] = timestamps
                 continue
 
             # Find start and end indices using binary search
@@ -114,10 +110,58 @@ class LogsDB:
             # Collect entries within the found range
             for i in range(start_idx, end_idx + 1):
                 timestamp = timestamp_list[i]
-                filtered_logs.append({
-                    'window': window,
-                    'timestamp': timestamp,
-                    'entries': timestamps[timestamp]
-                })
+                filtered_logs[window]= { timestamp :timestamps[timestamp]}
 
         return filtered_logs
+
+
+    def calculate_statistics(self, logs):
+        all_timestamps = []
+        window_counts = Counter()
+        char_counts = Counter()
+
+        # Process logs list
+        for log in logs:
+            window = log['window']
+            timestamp = log['timestamp']
+            entries = log['entries']
+
+            window_counts[window] += 1  # Count each window occurrence
+            dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+            all_timestamps.append(dt.hour)  # Extract hour
+            for char in entries:
+                char_counts.update(char)  # Count each character
+
+        # Calculate stats for all times, windows, and characters
+        hourly_stats = self.get_all_times(all_timestamps)
+        window_stats = self.get_all_windows(window_counts)
+        char_stats = self.get_all_characters(char_counts)
+
+        return {
+            "hourly_stats": hourly_stats,  # List of {hour, count}
+            "window_stats": window_stats,  # List of {name, count}
+            "char_stats": char_stats       # List of {char, count}
+        }
+
+    # Function 1: All Times (hourly counts)
+    def get_all_times(timestamps):
+        if not timestamps:
+            return [{"hour": 0, "count": 0}]  # Default empty hour
+        hour_counts = Counter(timestamps)
+        # Return counts for all 24 hours, filling in zeros where no activity
+        return [{"hour": h, "count": hour_counts.get(h, 0)} for h in range(24)]
+
+    # Function 2: All Windows
+    def get_all_windows(window_counts):
+        if not window_counts:
+            return [{"name": "No data available", "count": 0}]
+        return [{"name": name, "count": count} for name, count in window_counts.items()]
+
+    # Function 3: All Characters
+    def get_all_characters(char_counts):
+        if not char_counts:
+            return [{"char": "No data available", "count": 0}]
+        return [{"char": char, "count": count} for char, count in char_counts.items()]
+        if not char_counts:
+            return [{"char": "No data available", "count": 0}]
+        return [{"char": char, "count": count} for char, count in char_counts.most_common(top_n)]

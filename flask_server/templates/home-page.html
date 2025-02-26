@@ -3,159 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
-    <style>
-        /* הסרת גבול מכל הדף */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box; /* לוודא שאין מרווחים מיותרים */
-        }
-
-        body {
-            margin: 0; /* ביטול שוליים */
-            display: flex; /* פריסה גמישה */
-            flex-direction: column; /* אלמנטים מסודרים בטור */
-            height: 100vh; /* גובה מסך מלא */
-            overflow: hidden; /* ביטול גלילה */
-        }
-
-        .topbar {
-            width: 100%; /* רוחב מלא */
-            height: 50px; /* גובה קבוע */
-            background-color: black; /* צבע רקע שחור */
-            display: flex; /* פריסה גמישה */
-            align-items: center; /* יישור אנכי */
-            padding: 0 10px; /* ריווח פנימי */
-            position: fixed; /* קיבוע בראש הדף */
-            top: 0; /* הצמדה לחלק העליון */
-            left: 0; /* הצמדה לשמאל */
-            z-index: 3; /* קדימות על אלמנטים אחרים */
-        }
-
-        .exit-button {
-            background-color: red; /* צבע רקע אדום */
-            color: white; /* צבע טקסט לבן */
-            border: none; /* ללא מסגרת */
-            padding: 10px 20px; /* ריווח פנימי */
-            border-radius: 20px; /* פינות מעוגלות */
-            font-size: 16px; /* גודל גופן */
-            cursor: pointer; /* שינוי סמן לעכבר */
-            position: absolute; /* מיקום מוחלט */
-            right: 17px; /* הצמדה לצד ימין */
-        }
-
-        .green-corner {
-            width: 200px; /* רוחב קבוע */
-            height: 50px; /* גובה קבוע */
-            background-color: #239a46; /* צבע ירוק */
-            position: absolute; /* מיקום מוחלט */
-            top: 0; /* הצמדה לראש הדף */
-            left: 0; /* הצמדה לשמאל */
-            z-index: 4; /* הצגה מעל הסרגל הצדדי */
-            display: flex; /* פריסה גמישה */
-            justify-content: center; /* יישור אופקי */
-            align-items: center; /* יישור אנכי */
-        }
-
-        .green-text {
-            color: white; /* צבע טקסט לבן */
-            font-size: 18px; /* גודל טקסט */
-            font-weight: bold; /* טקסט מודגש */
-        }
-
-        .sidebar {
-            width: 200px; /* רוחב קבוע */
-            background-color: black; /* צבע רקע שחור */
-            display: flex; /* פריסה גמישה */
-            flex-direction: column; /* כפתורים מסודרים בטור */
-            align-items: center; /* כפתורים ממורכזים */
-            padding-top: 130px; /* ריווח מהחלק העליון */
-            height: 100vh; /* גובה מלא */
-            position: absolute; /* מיקום מוחלט */
-            top: 50px; /* מתחת לפס העליון */
-            left: 0; /* הצמדה לשמאל */
-            z-index: 2; /* שכבה נמוכה יותר */
-        }
-
-        .sidebar button {
-            background-color: transparent; /* רקע שקוף */
-            color: white; /* צבע טקסט לבן */
-            border: 1px solid rgb(95, 94, 94); /* מסגרת אפורה */
-            padding: 15px 20px; /* ריווח פנימי */
-            cursor: pointer; /* שינוי סמן לעכבר */
-            width: 100%; /* כפתור מלא */
-            font-size: 18px; /* גודל גופן */
-            margin: 5px 0; /* רווח בין כפתורים */
-        }
-
-        .sidebar button:hover {
-            background-color: #239a46; /* שינוי צבע בהעברת עכבר */
-        }
-
-        .main-container {
-            display: flex; /* פריסה גמישה */
-            flex: 1; /* התרחבות לפי גודל המסך */
-            height: calc(100vh - 50px); /* גובה מסך פחות הפס העליון */
-            margin-top: 50px; /* התאמה לגובה הפס העליון */
-        }
-
-        .content {
-            flex-grow: 1; /* התרחבות אוטומטית */
-            padding: 20px; /* ריווח פנימי */
-            overflow-y: auto; /* גלילה אנכית במקרה הצורך */
-            margin-left: 200px; /* התאמה לסרגל הצד */
-        }
-
-        iframe {
-            border: none; /* ביטול גבול */
-            width: 100%;
-            height: 100%;
-            display: block;
-            margin: 0; /* ביטול ריווחים */
-            padding: 0; /* ביטול ריווחים */
-        }
-
-        .circle {
-            width: 170px; /* רוחב התמונה */
-            height: 120px; /* גובה התמונה */
-            border-radius: 50%; /* צורת עיגול */
-            position: absolute; /* מיקום מוחלט */
-            top: 55px; /* התאמה לגובה */
-            left: 10px; /* התאמה למיקום */
-            z-index: 5; /* קדימות על אלמנטים אחרים */
-            background-image: "../static/1597055487406.png"; /* תמונת רקע */
-            background-size: cover; /* התאמת תמונה */
-            background-position: center; /* מיקום התמונה */
-        }
-    </style>
+    <link rel="stylesheet" href="../static/home-page.css">
 </head>
 <body>
     <div class="green-corner">
-        <span class="green-text">Our Keylogger</span> <!-- טקסט בפינה הירוקה -->
+        <span class="green-text">Our Keylogger</span>
     </div>
 
     <div class="topbar">
-        <button class="exit-button">Exit</button> <!-- כפתור יציאה -->
+        <button onclick="logoutUser()" class="exit-button">Log out</button>
+        <select id="userSelect" class="user-select">
+            <option value="">Select a user</option>
+        </select>
     </div>
     
     <div class="main-container">
         <div class="sidebar">
-            <button onclick="loadPage(`https://keyloggerserverside-flask.onrender.com/dashboard`)">Dashboard</button> <!-- כפתור 1 -->
-            <button onclick="loadPage(`https://keyloggerserverside-flask.onrender.com/stats`)">Statistics</button> <!-- כפתור 2 -->
-            <button disabled onclick="loadPage('page3.html')">Not Avilable</button> <!-- כפתור 3 -->
+            <div class="buttons">
+                <button id="dashboard" onclick="loadPage(`{{ url_for('dashboard') }}`)">Dashboard</button>
+                <button id="statistics" onclick="loadPage(`{{ url_for('staticstics') }}`)">Statistics</button>
+                <button disabled onclick="loadPage('page3.html')">Not Available</button>
+            </div>
         </div>
 
         <div class="content">
-            <iframe id="contentFrame" src="https://keyloggerserverside-flask.onrender.com/dashboard" style="border: none;"></iframe> <!-- הצגת תוכן של דף בתור iframe ללא מסגרת -->
+            <iframe id="contentFrame" src="{{ url_for('dashboard') }}" style="border: none;"></iframe>
         </div>
     </div>
 
-    <div class="circle"></div> <!-- תמונת עיגול -->
+    <div class="circle"></div>
 
-    <script>
-        function loadPage(page) {
-            document.getElementById('contentFrame').src = page; // טוען דף חדש בתוך iframe
-        }
-    </script>
+    <script src="../static/home-page.js"></script>
 </body>
 </html>

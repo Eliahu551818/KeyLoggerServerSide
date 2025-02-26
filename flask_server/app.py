@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, jsonify
 
 app = Flask(__name__)
 
@@ -27,10 +27,10 @@ def dashboard():
     id = request.args.get('id', '')
 
     if id:
-        return render_template('Dashboard.html', id=id)
+        return render_template('dashboard.html', id=id)
     
     else:
-        return 'Not found!'
+        return 'Select a user to chekc their logs!'
 
 @app.route('/statistics')
 def staticstics(id: str ):
@@ -39,7 +39,7 @@ def staticstics(id: str ):
 @app.route('/logout', methods=['POST'])
 def logout():
     session["logged"] = False
-    return True
+    return jsonify(True)
     
 if __name__ == '__main__':
     app.run()
