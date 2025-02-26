@@ -79,6 +79,8 @@ class LogsDB:
         logs_data: dict = doc.get('logs', {})
         filtered_logs = {}
 
+        print(fil)
+
         # Normalize filter keys
         from_date = fil.get('from_date') or fil.get('from') if fil else None
         to_date = fil.get('to_date') or fil.get('to') if fil else None

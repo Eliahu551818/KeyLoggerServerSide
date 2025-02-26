@@ -41,7 +41,7 @@ function monitorSelectedId() {
     if (currentSelectedId) {
         iframe.src = updateIframeUrl(iframe.src, currentSelectedId);
     } else {
-        iframe.src = updateIframeUrl(iframe.src, '123'); // Default ID
+        iframe.src = updateIframeUrl(iframe.src); // Default ID
     }
 
     selectElement.addEventListener('change', () => {
@@ -49,15 +49,17 @@ function monitorSelectedId() {
         if (currentSelectedId) {
             iframe.src = updateIframeUrl(iframe.src, currentSelectedId); // Update iframe with new ID
         } else {
-            iframe.src = updateIframeUrl(iframe.src, '123'); // Default ID if empty
+            iframe.src = updateIframeUrl(iframe.src); // Default ID if empty
         }
     });
 }
 
 // Helper function to update the id parameter in the iframe URL
-function updateIframeUrl(currentSrc, newId) {
+function updateIframeUrl(currentSrc, newId = null) {
     const url = new URL(currentSrc, window.location.origin); // Parse the current src
-    url.searchParams.set('id', newId); // Set or update the 'id' parameter
+    if (newId) {
+        url.searchParams.set('id', newId); // Set or update the 'id' parameter
+    }
     return url.toString(); // Return the updated URL
 }
 
