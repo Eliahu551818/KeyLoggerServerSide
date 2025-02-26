@@ -72,11 +72,23 @@ function listenToChangeOfWindow(data){
 function receiveUserData() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
+    const fdate = params.get('fromDate');
+    const tdate = params.get('toDate');
+    const cwindow = params.get('window');
+    if (!fdate) {
+        fdate = 'none'
+    }
+    if (!tdate) {
+        tdate = 'none'
+    }
+    if (!cwindow) {
+        cwindow = 'none'
+    }
     const lst = []
     const container = document.getElementById('selection_win')
     const output = document.createElement('p')
     output.id = 'output'
-    fetch(`http://127.0.0.1:8000/data/get_logs_for_user?id=${id}`, {method: 'GET'})
+    fetch(`http://127.0.0.1:8000/data/get_logs_for_user?id=${id}?fromDate=${fdate}?toDate=${tdate}?window=${cwindow}`, {method: 'GET'})
         .then(response => response.json())
         .then(data => data.logs)
         .then(data => {
