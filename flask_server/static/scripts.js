@@ -76,7 +76,7 @@ function receiveUserData() {
     const container = document.getElementById('selection_win')
     const output = document.createElement('p')
     output.id = 'output'
-    fetch(`https://keyloggerserverside.onrender.com/data/get_logs_for_user?id=${id}`, {method: 'GET'})
+    fetch(`http://127.0.0.1:8000/data/get_logs_for_user?id=${id}`, {method: 'GET'})
         .then(response => response.json())
         .then(data => data.logs)
         .then(data => {
