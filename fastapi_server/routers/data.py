@@ -26,13 +26,14 @@ async def get_logs_for_user(
     to_date: Optional[str] = Query(None, description="End date (YYYY-MM-DD)"),
     window: Optional[str] = Query(None, description="Window name")
 ):
-    # Build filter dict only with provided parameters
+
+        # Build filter dict only with provided parameters
     filter_params = {}
-    if from_date:
+    if from_date != None:
         filter_params["from_date"] = from_date
-    if to_date:
+    if to_date != None:
         filter_params["to_date"] = to_date
-    if window:
+    if window != None:
         filter_params["window"] = window
 
     # Call the logs function with or without filters

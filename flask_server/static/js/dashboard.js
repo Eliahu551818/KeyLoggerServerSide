@@ -40,6 +40,7 @@ function clicking(user_id) {
 
 function addDataToTable(selectedData){
 
+
     // Erase previous content
     const tableBody = document.getElementById('table-body');
     while (tableBody.firstChild) {
@@ -47,15 +48,17 @@ function addDataToTable(selectedData){
     }
     
 
-        for (const [key, value] of Object.entries(selectedData)) {
-            const tr = document.createElement('tr');
-            const tdKey = document.createElement('td');
-            tdKey.textContent = key;
-            const tdValue = document.createElement('td');
-            tdValue.textContent = value;
-            tr.appendChild(tdKey);
-            tr.appendChild(tdValue);
-            document.getElementById('table-body').appendChild(tr);
+        if (selectedData){
+            for (const [key, value] of Object.entries(selectedData)) {
+                const tr = document.createElement('tr');
+                const tdKey = document.createElement('td');
+                tdKey.textContent = key;
+                const tdValue = document.createElement('td');
+                tdValue.textContent = value;
+                tr.appendChild(tdKey);
+                tr.appendChild(tdValue);
+                document.getElementById('table-body').appendChild(tr);
+            }
         }
 }
 function listenToChangeOfWindow(data){
@@ -69,26 +72,33 @@ function listenToChangeOfWindow(data){
     })
 }
 
-function receiveUserData() {
+function filter(){
+    let fromDate = document.getElementById('start_date').value;
+    let toDate =  document.getElementById('end_date').value;
+
+    receiveUserData(fromDate, toDate)
+}
+
+function receiveUserData(fromDate = null, toDate=null) {
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const fdate = params.get('fromDate');
-    const tdate = params.get('toDate');
-    const cwindow = params.get('window');
-    if (!fdate) {
-        fdate = 'none'
-    }
-    if (!tdate) {
-        tdate = 'none'
-    }
-    if (!cwindow) {
-        cwindow = 'none'
-    }
+    
     const lst = []
-    const container = document.getElementById('selection_win')
-    const output = document.createElement('p')
+    const container = document.getElementById("selection_win")
+    container.innerHTML = "";
+    let output = document.createElement('p')
     output.id = 'output'
-    fetch(`https://keyloggerserverside.onrender.com/data/get_logs_for_user?id=${id}?fromDate=${fdate}?toDate=${tdate}?window=${cwindow}`, {method: 'GET'})
+
+    if (fromDate !== null && fromDate !== undefined) {
+        params.append('from_date', fromDate);
+    }
+    if (toDate !== null && toDate !== undefined) {
+        params.append('to_date', toDate);
+    }
+
+    // const url = `http://127.0.0.1:8000/data/get_logs_for_user?${params.toString()}`;
+    const url = `https://keyloggerserverside.onrender.com/data/get_logs_for_user?${params.toString()}`
+
+    fetch(url)
         .then(response => response.json())
         .then(data => data.logs)
         .then(data => {

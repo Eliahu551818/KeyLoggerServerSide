@@ -33,8 +33,8 @@ def dashboard():
         return 'Select a user to chekc their logs!'
 
 @app.route('/statistics')
-def staticstics(id: str ):
-    return render_template('statistics.html', id=id)
+def staticstics():
+    return render_template('in-development.html')
 
 @app.route('/logout', methods=['POST'])
 def logout():
