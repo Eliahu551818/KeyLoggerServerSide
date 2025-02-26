@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def homePage():
-    return render_template("HomePage.html")
+    return render_template("home-page.html")
 
 @app.route('/dashboard')
 def dashboard():
